@@ -18,27 +18,35 @@ try:
     print("Command line arguments:")
     print(process.cmdline())
 
-    print("Found " + str(len(process.connections())) + " connections.")
-    print("Connections details: ")
-    for connection in process.connections():
-        print(connection)
-        af = connection.family
+    print("\nFound " + str(len(process.connections())) + " connections.")
 
-        print(af)
+    if len(process.connections()) > 0:
 
-        local_address = connection.laddr
-        if local_address.ip == "::" or local_address.ip == "0.0.0.0":
-            local_address = "localhost"    
-        
-        print(local_address)
+        print("Connections details: \n")
+        for index, connection in enumerate(process.connections()):
+            print("##### Connection " + str(index + 1), end=" #####\n")
+            af = connection.family
 
-        remote_address = connection.raddr
-        if not all(remote_address):
-            print("No remote address found")
-            print(remote_address)
+            if "INET6" in str(af):
+                af = "IPv6"
+            else:
+                af = "IPv4"
+                
+            print("IP Version: " + af)
 
-        status = connection.status
-        print(status)
+            local_address = connection.laddr
+            if local_address.ip == "::" or local_address.ip == "0.0.0.0":
+                local_address = "localhost"    
+            
+            print("Local address: " + local_address)
+
+            remote_address = connection.raddr
+            if not all(remote_address):
+                print("No remote address found")
+                print(remote_address)
+
+            status = connection.status
+            print("Status: " + status)
 
 except psutil.NoSuchProcess as e:
     print(e) 
