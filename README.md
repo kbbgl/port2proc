@@ -12,7 +12,7 @@ pip install psutils
 ```bash
 python port2process.py 5425
 
-# Ouput
+# Output
 Command line arguments:
 ['C:\\windows\\system32\\svchost.exe', '-k', 'netsvcs', '-p', '-s', 'Schedule']
 
